@@ -20,10 +20,16 @@ var collection = new Backbone.Collection(_.range(100).map(function(i) {
 
 assert.equal(100, collection.length);
 
-Benchmark.add('Filtering collections', function() {
+Benchmark.add('Old filtering collections', function() {
   var oldFilteredCollection = new Backbone.FilteredCollection(null, { collection: collection });
   oldFilteredCollection.setFilter(filter);
   assert.equal(50, oldFilteredCollection.length);
+});
+
+Benchmark.add('New filtering collections', function() {
+  var newFilteredCollection = new FilteredCollection({ collection: collection });
+  newFilteredCollection.setFilter(filter);
+  assert.equal(50, newFilteredCollection.length);
 });
 
 Benchmark.on('cycle', function(e) {
