@@ -1,10 +1,11 @@
 'use strict';
 
-var _         = global._          = require('underscore');
-var Backbone  = global.Backbone   = require('backbone');
-var assert    = require('assert');
-var Lazy      = require('lazy');
-var Benchmark = require('benchmark').Suite();
+var _                  = global._          = require('underscore');
+var Backbone           = global.Backbone   = require('backbone');
+var assert             = require('assert');
+var Lazy               = require('lazy');
+var Benchmark          = require('benchmark').Suite();
+var FilteredCollection = require('../../index.js');
 
 require('../../vendor/backbone-filtered-collection');
 

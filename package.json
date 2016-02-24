@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "backbone": "^1.2.3",
-    "backbone-proxy-collection": "git+https://github.com/gitterHQ/backbone-proxy-collection.git",
+    "backbone-proxy-collection": "git+https://github.com/gitterHQ/backbone-proxy-collection.git#dont-define",
     "benchmark": "^2.1.0",
     "coveralls": "^2.11.6",
     "devtool": "^1.8.2",
