@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/spces/**/*.js && cat ./coverage/lcov.info | coveralls",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/specs/**/*.js && cat ./coverage/lcov.info | coveralls",
     "test:unit:dev": "mocha -w  ./test/specs/**/*.js",
     "test:bench": "node ./test/benchmarks/index.js"
   },
@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "backbone": "^1.2.3",
+    "backbone-proxy-collection": "git+https://github.com/gitterHQ/backbone-proxy-collection.git",
     "benchmark": "^2.1.0",
     "coveralls": "^2.11.6",
     "devtool": "^1.8.2",

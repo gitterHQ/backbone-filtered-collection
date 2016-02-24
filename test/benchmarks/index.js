@@ -1,33 +1,35 @@
-_                         = require('underscore');
-Backbone                  = require('backbone');
-var assert                = require('assert');
-var Lazy                  = require('lazy');
-var Benchmark             = require('benchmark').Suite();
+'use strict';
+
+var _         = global._          = require('underscore');
+var Backbone  = global.Backbone   = require('backbone');
+var assert    = require('assert');
+var Lazy      = require('lazy');
+var Benchmark = require('benchmark').Suite();
 
 require('../../vendor/backbone-filtered-collection');
 
-var filter = function(model){
+var filter = function(model) {
   var id = model.get('id');
   return !(id % 2);
 };
 
-var collection = new Backbone.Collection(_.range(100).map(function(i){
+var collection = new Backbone.Collection(_.range(100).map(function(i) {
   return { id: i };
 }));
 
 assert.equal(100, collection.length);
 
-Benchmark.add('Filtering collections', function(){
-  var oldFilteredCollection = new Backbone.FilteredCollection(null, { collection: collection});
+Benchmark.add('Filtering collections', function() {
+  var oldFilteredCollection = new Backbone.FilteredCollection(null, { collection: collection });
   oldFilteredCollection.setFilter(filter);
   assert.equal(50, oldFilteredCollection.length);
 });
 
-Benchmark.on('cycle', function(e){
+Benchmark.on('cycle', function(e) {
   console.log(String(e.target));
 });
 
-Benchmark.on('error', function(e){
+Benchmark.on('error', function(e) {
   console.error(e);
 });
 
