@@ -1,0 +1,17 @@
+{
+  "name": "backbone-filtered-collection",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "devtool -chq ./node_modules/mocha/bin/_mocha -- ./test/spces/**/*.js",
+    "test:dev": "devtool -wchq  ./node_modules/mocha/bin/_mocha -- -w ./test/spces/**/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "devtool": "^1.8.2",
+    "mocha": "^2.4.5"
+  }
+}
