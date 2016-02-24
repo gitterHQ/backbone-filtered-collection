@@ -22,7 +22,7 @@ describe('BackboneFilteredCollection', function() {
     collection = new BackboneFilteredCollection({ collection: _collection });
   });
 
-  it('should not filter if no filter is provides', function() {
+  it('should not filter if no filter is provided', function() {
     assert.equal(_collection.length, collection.length);
     assert.deepEqual(_collection.models, collection.models);
   });
@@ -55,6 +55,45 @@ describe('BackboneFilteredCollection', function() {
     assert.equal(50, collection.length);
     collection.add({ id: 102 });
     assert.equal(51, collection.length);
+  });
+
+  it('should work when add passes an array', function(){
+    collection.setFilter(filter);
+    collection.add([
+      { id: 101 },
+      { id: 102 },
+      { id: 103 },
+      { id: 104 },
+    ]);
+    assert.equal(52, collection.length);
+  });
+
+  it('should work when you add to the underlying collection', function(){
+    collection.setFilter(filter);
+    _collection.add([
+      { id: 101 },
+      { id: 102 },
+      { id: 103 },
+      { id: 104 },
+    ]);
+    assert.equal(52, collection.length);
+  });
+
+  it('should fire add events when models are added to the underlying collection', function(done){
+    collection.on('add', function(){
+      assert(true);
+      done();
+    });
+    _collection.add({ id: 202 });
+  });
+
+  it('should not fire add events when models are added to the underlying collection whicih should be filtered', function(done){
+    collection.setFilter(filter);
+    collection.on('add', function(){
+      assert(false);
+    });
+    _collection.add({ id: 201 });
+    done();
   });
 
 });
