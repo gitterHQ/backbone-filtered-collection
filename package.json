@@ -15,11 +15,16 @@
     "backbone": "^1.2.3",
     "backbone-proxy-collection": "git+https://github.com/gitterHQ/backbone-proxy-collection.git#dont-define",
     "benchmark": "^2.1.0",
+    "chalk": "^1.1.1",
     "coveralls": "^2.11.6",
     "devtool": "^1.8.2",
     "istanbul": "^0.4.2",
     "jquery": "^2.2.1",
     "lazy": "^1.0.11",
+    "lazy.js": "^0.4.2",
+    "lodash": "^4.5.1",
+    "memwatch": "^0.2.2",
+    "microtime": "^2.0.0",
     "mocha": "^2.4.5",
     "underscore": "^1.8.3"
   }

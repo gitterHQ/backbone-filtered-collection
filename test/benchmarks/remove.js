@@ -21,68 +21,79 @@ var filter  = global.filter  = function(model) {
   return !(id % 2);
 };
 
-global.models = _.range(100).map(function(i) {
-  return { id: i };
-});
-
 var suite = Benchmark.Suite();
 
 var collection;
 var filtered;
 
+global.models = _.range(100).map(function(i) {
+  return { id: i };
+});
+
 suite.add('old', function() {
+
   filtered.setFilter(filter);
-  collection.add(global.models);
+  global.models.forEach(function(obj) {
+    collection.remove(obj);
+  });
+
 }, {
 
   setup: function() {
-    collection = new Backbone.Collection(null);
+    collection = new Backbone.Collection(global.models);
     filtered   = new Backbone.FilteredCollection(null, { collection: collection });
-    assert.equal(filtered.length, 0);
-    assert.equal(collection.length, 0);
+    assert.equal(filtered.length, 100);
+    assert.equal(collection.length, 100);
   },
 
   teardown: function() {
-    assert.equal(filtered.length, 50);
-    assert.equal(collection.length, 100);
+    assert.equal(filtered.length, 0);
+    assert.equal(collection.length, 0);
     collection.reset();
     filtered.stopListening();
   },
 
 });
+
+
 
 suite.add('new', function() {
+
   filtered.setFilter(filter);
-  collection.add(global.models);
+  global.models.forEach(function(obj) {
+    collection.remove(obj);
+  });
 
 }, {
 
   setup: function() {
-    collection = new Backbone.Collection(null);
+    collection = new Backbone.Collection(global.models);
     filtered   = new global.FilteredCollection({ collection: collection });
-    assert.equal(filtered.length, 0);
-    assert.equal(collection.length, 0);
+    assert.equal(filtered.length, 100);
+    assert.equal(collection.length, 100);
   },
 
   teardown: function() {
-    assert.equal(filtered.length, 50);
-    assert.equal(collection.length, 100);
+    assert.equal(filtered.length, 0);
+    assert.equal(collection.length, 0);
     collection.reset();
     filtered.stopListening();
   },
 
 });
+
+
 
 //RUN THE SUITE
 suite.on('cycle', function(e) {
   console.log(String(e.target));
 });
 
-suite.on('error', function(e) {
+suite.on('error', function(e){
   console.log(e.target.error);
 });
 
-suite.on('complete', function(e) {
+suite.on('complete', function(e){
   console.log('Fastest is ' + this.filter('fastest').map('name') + ' By ' + compare(this[1].hz, this[0].hz));
 });
 

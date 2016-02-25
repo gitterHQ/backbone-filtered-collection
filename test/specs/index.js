@@ -87,13 +87,39 @@ describe('BackboneFilteredCollection', function() {
     _collection.add({ id: 202 });
   });
 
-  it('should not fire add events when models are added to the underlying collection whicih should be filtered', function(done){
+  it('should not fire add events when models are added to the underlying collection which should be filtered', function(done){
     collection.setFilter(filter);
     collection.on('add', function(){
       assert(false);
     });
     _collection.add({ id: 201 });
     done();
+  });
+
+  it('should remove models from the collection', function(){
+    collection.setFilter(filter);
+    collection.remove(collection.at(0));
+    assert.equal(collection.length, 49);
+  });
+
+  it('should remove an array of models', function(){
+    collection.setFilter(filter);
+    collection.remove([collection.at(0), collection.at(1), collection.at(2)]);
+    assert.equal(collection.length, 47);
+  });
+
+  it('should remove models when they are removed from the underlying collection', function(){
+    collection.setFilter(filter);
+    _collection.remove(collection.at(0));
+    assert.equal(collection.length, 49);
+    assert.equal(_collection.length, 99);
+  });
+
+  it('should remove models when they are removed from the underlying collection', function(){
+    collection.setFilter(filter);
+    _collection.remove([collection.at(0), collection.at(1), collection.at(2)]);
+    assert.equal(collection.length, 47);
+    assert.equal(_collection.length, 97);
   });
 
 });

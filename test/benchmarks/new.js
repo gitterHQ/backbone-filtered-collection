@@ -1,43 +1,84 @@
 'use strict';
 
-var _                  = global._          = require('underscore');
-var Backbone           = global.Backbone   = require('backbone');
+var _                  = require('underscore');
+var Backbone           = require('backbone');
+var Benchmark          = require('benchmark');
 var assert             = require('assert');
-var Lazy               = require('lazy');
-var Benchmark          = require('benchmark').Suite();
 var FilteredCollection = require('../../index.js');
+var lazy               = require('lazy.js');
+var lodash             = require('lodash');
+var compare            = require('./helpers/compare');
+
+global.Backbone           = Backbone;
+global._                  = _;
+global.assert             = assert;
+global.FilteredCollection = FilteredCollection;
 
 require('../../vendor/backbone-filtered-collection');
 
-var filter = function(model) {
+var filter  = global.filter  = function(model) {
   var id = model.get('id');
   return !(id % 2);
 };
 
-var collection = new Backbone.Collection(_.range(100).map(function(i) {
-  return { id: i };
-}));
+var suite = Benchmark.Suite();
 
-assert.equal(100, collection.length);
+var collection;
+var filtered;
 
-Benchmark.add('Old filtering collections on init', function() {
-  var oldFilteredCollection = new Backbone.FilteredCollection(null, { collection: collection });
-  oldFilteredCollection.setFilter(filter);
-  assert.equal(50, oldFilteredCollection.length);
+suite.add('old', function() {
+  filtered.setFilter(filter);
+}, {
+
+  setup: function() {
+    collection = new Backbone.Collection(_.range(100).map(function(i) { return { id: i }; }));
+
+    filtered   = new Backbone.FilteredCollection(null, { collection: collection });
+    assert.equal(filtered.length, 100);
+    assert.equal(collection.length, 100);
+  },
+
+  teardown: function() {
+    assert.equal(filtered.length, 50);
+    assert.equal(collection.length, 100);
+    collection.reset();
+    filtered.stopListening();
+  },
+
 });
 
-Benchmark.add('New filtering collections on init', function() {
-  var newFilteredCollection = new FilteredCollection({ collection: collection });
-  newFilteredCollection.setFilter(filter);
-  assert.equal(50, newFilteredCollection.length);
+suite.add('new', function() {
+  filtered.setFilter(filter);
+}, {
+
+  setup: function() {
+    collection = new Backbone.Collection(_.range(100).map(function(i) { return { id: i }; }));
+
+    filtered   = new FilteredCollection({ collection: collection });
+    assert.equal(filtered.length, 100);
+    assert.equal(collection.length, 100);
+  },
+
+  teardown: function() {
+    assert.equal(filtered.length, 50);
+    assert.equal(collection.length, 100);
+    collection.reset();
+    filtered.stopListening();
+  },
+
 });
 
-Benchmark.on('cycle', function(e) {
+//RUN THE SUITE
+suite.on('cycle', function(e) {
   console.log(String(e.target));
 });
 
-Benchmark.on('error', function(e) {
-  console.error(e);
+suite.on('error', function(e) {
+  console.log(e.target.error);
 });
 
-Benchmark.run();
+suite.on('complete', function(e) {
+  console.log('Fastest is ' + this.filter('fastest').map('name') + ' By ' + compare(this[1].hz, this[0].hz));
+});
+
+suite.run();
