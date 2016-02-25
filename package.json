@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:int && npm run test:unit",
-    "test:unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/specs/**/*.js && cat ./coverage/lcov.info | coveralls",
+    "test": "npm run test:int && npm run test:unit && npm run test:post:cov",
+    "test:unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/specs/**/*.js",
     "test:unit:dev": "mocha -w  ./test/specs/**/*.js",
     "test:bench": "node ./test/benchmarks/index.js",
     "test:int": "devtool -cqh ./node_modules/mocha/bin/_mocha --  ./test/integration/index.js",
-    "test:int:watch": "devtool -cqw ./node_modules/mocha/bin/_mocha -- -w ./test/integration/index.js"
+    "test:int:watch": "devtool -cqw ./node_modules/mocha/bin/_mocha -- -w ./test/integration/index.js",
+    "test:post:cov": "cat ./coverage/lcov.info | coveralls"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +28,6 @@
     "lazy": "^1.0.11",
     "lazy.js": "^0.4.2",
     "lodash": "^4.5.1",
-    "memwatch": "^0.2.2",
     "microtime": "^2.0.0",
     "mocha": "^2.4.5",
     "underscore": "^1.8.3"
