@@ -17,5 +17,12 @@ require('./remove.js');
 console.log(chalk.cyan('Removing items in a batch array'));
 require('./batch-remove.js');
 
+
+console.log(chalk.cyan('Resetting all the models in a collection'));
+require('./reset.js');
+
+console.log(chalk.cyan('Resetting some of the models in a collection'));
+require('./reset-partial.js');
+
 console.log(chalk.cyan('Library filter comparision'));
 require('./libraries.js');

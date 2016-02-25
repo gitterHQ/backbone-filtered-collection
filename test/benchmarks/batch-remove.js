@@ -1,5 +1,6 @@
 'use strict';
 
+
 var _                  = require('underscore');
 var Backbone           = require('backbone');
 var Benchmark          = require('benchmark');
@@ -89,8 +90,6 @@ suite.on('error', function(e){
   console.log(e.target.error);
 });
 
-suite.on('complete', function(e){
-  console.log('Fastest is ' + this.filter('fastest').map('name') + ' By ' + compare(this[1].hz, this[0].hz));
-});
+suite.on('complete', require('./helpers/end'));
 
 suite.run();

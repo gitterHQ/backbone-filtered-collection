@@ -7,7 +7,6 @@ var assert             = require('assert');
 var FilteredCollection = require('../../index.js');
 var lazy               = require('lazy.js');
 var lodash             = require('lodash');
-var compare            = require('./helpers/compare');
 
 global.Backbone           = Backbone;
 global._                  = _;
@@ -89,8 +88,6 @@ suite.on('error', function(e){
   console.log(e.target.error);
 });
 
-suite.on('complete', function(e){
-  console.log('Fastest is ' + this.filter('fastest').map('name') + ' By ' + compare(this[1].hz, this[0].hz));
-});
+suite.on('complete', require('./helpers/end'));
 
 suite.run();

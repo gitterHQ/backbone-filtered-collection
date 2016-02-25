@@ -62,6 +62,10 @@ BackboneFilteredCollection.prototype = _.extend(
       }
     }
 
+    else if(type === 'reset') {
+      this._applyFilter();
+    }
+
     //proxy everything else
     else {
       BackboneProxyCollection.prototype._onCollectionEvent.apply(this, arguments);

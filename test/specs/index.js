@@ -122,4 +122,11 @@ describe('BackboneFilteredCollection', function() {
     assert.equal(_collection.length, 97);
   });
 
+  it('should reset properly', function(){
+    collection.setFilter(filter);
+    collection.reset();
+    assert.equal(0, collection.length);
+    assert.equal(0, _collection.length);
+  });
+
 });
