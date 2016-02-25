@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/specs/**/*.js && cat ./coverage/lcov.info | coveralls",
+    "test": "npm run test:int && npm run test:unit",
+    "test:unit": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/specs/**/*.js && cat ./coverage/lcov.info | coveralls",
     "test:unit:dev": "mocha -w  ./test/specs/**/*.js",
-    "test:bench": "node ./test/benchmarks/index.js"
+    "test:bench": "node ./test/benchmarks/index.js",
+    "test:int": "devtool -cqh ./node_modules/mocha/bin/_mocha --  ./test/integration/index.js",
+    "test:int:watch": "devtool -cqw ./node_modules/mocha/bin/_mocha -- -w ./test/integration/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +17,7 @@
   "devDependencies": {
     "backbone": "^1.2.3",
     "backbone-proxy-collection": "git+https://github.com/gitterHQ/backbone-proxy-collection.git#dont-define",
+    "backbone.marionette": "^2.4.4",
     "benchmark": "^2.1.0",
     "chalk": "^1.1.1",
     "coveralls": "^2.11.6",
