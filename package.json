@@ -12,6 +12,9 @@
     "test:int:watch": "devtool -cqw ./node_modules/mocha/bin/_mocha -- -w ./test/integration/index.js",
     "test:post:cov": "cat ./coverage/lcov.info | coveralls"
   },
+  "publishConfig": {
+    "registry": "http://beta-internal:4873"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
