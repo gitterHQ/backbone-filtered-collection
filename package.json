@@ -20,7 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "backbone": "^1.2.3",
-    "backbone-proxy-collection": "git+https://github.com/gitterHQ/backbone-proxy-collection.git#dont-define",
+    "backbone-proxy-collection": "^2.2.0",
     "backbone.marionette": "^2.4.4",
     "benchmark": "^2.1.0",
     "chalk": "^1.1.1",
