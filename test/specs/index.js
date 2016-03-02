@@ -244,4 +244,16 @@ describe('BackboneFilteredCollection', function() {
     assert.equal(25, collection.length);
   });
 
+  it('should respect toArray', function(){
+    collection.setFilter(filter);
+    assert.equal(50, collection.toArray().length);
+  });
+
+  it('should pass an index', function(done){
+    collection.setFilter(function(model, index){
+      assert(index >= 0);
+      if(index === 50) { done(); }
+    });
+  });
+
 });

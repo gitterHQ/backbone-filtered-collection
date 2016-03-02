@@ -51,7 +51,8 @@ BackboneFilteredCollection.prototype = _.extend(
     this._models = [];
     for (var i = 0; i < this.collection.length; i++) {
       var model = this.collection.models[i];
-      if (this._filter(model)) {
+      var index = (i <= 0) ? 0 : (i -1);
+      if (this._filter(model, index)) {
         this._models.push(model);
       }
     }
@@ -142,7 +143,11 @@ BackboneFilteredCollection.prototype = _.extend(
     this._models = null;
     BackboneProxyCollection.prototype.switchCollection.apply(this, arguments);
     this._applyFilter();
-  }
+  },
+
+  toArray: function (){
+    return this.models;
+  },
 
 });
 
