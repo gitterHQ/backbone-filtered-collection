@@ -149,6 +149,12 @@ BackboneFilteredCollection.prototype = _.extend(
     return this.models;
   },
 
+  toJSON: function(){
+    return this.models.map(function(model){
+      return model.toJSON();
+    });
+  }
+
 });
 
 module.exports = BackboneFilteredCollection;
