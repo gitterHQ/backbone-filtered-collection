@@ -256,4 +256,12 @@ describe('BackboneFilteredCollection', function() {
     });
   });
 
+  it('should maintain the functionality of toJSON', function() {
+    collection.setFilter(filter);
+    assert.equal(50, collection.length);
+    var result = collection.toJSON();
+    assert.equal(50, result.length);
+  });
+
+
 });
