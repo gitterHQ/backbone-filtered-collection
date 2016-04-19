@@ -8,13 +8,13 @@ var BackboneFilteredCollection = function(attrs, options) {
 
   Object.defineProperty(this, 'length', {
     get: function() {
-      return ((this._models && this._models.length) || this.collection.length);
+      return this._models.length;
     },
   });
 
   Object.defineProperty(this, 'models', {
     get: function() {
-      return (this._models || this.collection.models);
+      return this._models
     },
   });
 
@@ -37,6 +37,10 @@ var BackboneFilteredCollection = function(attrs, options) {
     this._applyFilter();
   }
 
+  else {
+    this._models = this.collection.models;
+  }
+
   if(this.initialize) { this.initialize.apply(this, arguments); }
 
 };
@@ -45,7 +49,7 @@ BackboneFilteredCollection.prototype = _.extend(
   BackboneFilteredCollection.prototype,
   BackboneProxyCollection.prototype, {
 
-  _models: null,
+  _models: [],
   _filter: null,
   _applyFilter: function() {
     this._models = [];
