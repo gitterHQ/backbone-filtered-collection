@@ -263,5 +263,26 @@ describe('BackboneFilteredCollection', function() {
     assert.equal(50, result.length);
   });
 
+  it('should fire a remove event for every model that is filtered', function(){
+
+    var count = 0;
+    collection.on('remove', function(){
+      count = count + 1;
+    });
+    collection.setFilter(filter);
+    assert.equal(50, count);
+
+  });
+
+  it('should fire an add event for every model that is unfiltered', function(){
+
+    collection.setFilter(filter);
+    var count = 0;
+    collection.on('add', function(){
+      count = count + 1;
+    });
+    collection.setFilter(function(){ return true; });
+    assert.equal(50, count);
+  });
 
 });

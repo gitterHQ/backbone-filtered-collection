@@ -52,12 +52,29 @@ BackboneFilteredCollection.prototype = _.extend(
   _models: [],
   _filter: null,
   _applyFilter: function() {
+
+    var oldModels = (this._models || []);
     this._models = [];
     for (var i = 0; i < this.collection.length; i++) {
       var model = this.collection.models[i];
       var index = (i <= 0) ? 0 : (i -1);
       if (this._filter(model, index)) {
         this._models.push(model);
+        if((oldModels.indexOf(model) === -1)) {
+          //TODO make this more efficient
+          if(this.comparator) {
+            this._models.sort(this.comparator);
+          }
+          this.trigger('add', model, this, { index: this._models.indexOf(model)});
+        }
+      }
+      else {
+        if((oldModels.indexOf(model) !== -1)) {
+          if(this.comparator) {
+            this._models.sort(this.comparator);
+          }
+          this.trigger('remove', model, this, { index: this._models.indexOf(model)});
+        }
       }
     }
     this.trigger('filter-complete');
