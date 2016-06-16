@@ -13,12 +13,15 @@ describe('BackboneFilteredCollection', function() {
   var filter = function(model) {
     return !(model.get('id') % 2);
   };
+  var filterByIndex = function(model, index) {
+    return index < 5;
+  };
 
   var compare = function() { return 0; };
 
   beforeEach(function() {
     _collection = new Backbone.Collection(_.range(100).map(function(i) {
-      return { id: i };
+      return { id: i, foo: 0 };
     }));
 
     collection = new BackboneFilteredCollection({ collection: _collection, comparator: compare });
@@ -28,6 +31,21 @@ describe('BackboneFilteredCollection', function() {
     assert.equal(_collection.length, collection.length);
     assert.deepEqual(_collection.models, collection.models);
   });
+
+  it('should maintain same models after arbitrary attribute change', function(done) {
+    collection.setFilter(filterByIndex);
+    assert.equal(5, collection.length);
+    assert.equal(5, collection.models.length);
+    collection.on('change', function() {
+      setTimeout(function() {
+        assert.equal(5, collection.length);
+        assert.equal(5, collection.models.length);
+        done();
+      }, 0);
+    });
+    collection.at(1).set({ foo: 1 });
+  });
+
 
   it('should filter the collection when setFilter is called', function() {
     collection.setFilter(filter);
