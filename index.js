@@ -55,9 +55,8 @@ BackboneFilteredCollection.prototype = _.extend(
 
     var oldModels = (this._models || []);
     this._models = [];
-    for (var i = 0; i < this.collection.length; i++) {
-      var model = this.collection.models[i];
-      var index = (i <= 0) ? 0 : (i -1);
+    for (var index = 0; index < this.collection.length; index++) {
+      var model = this.collection.models[index];
       if (this._filter(model, index)) {
         this._models.push(model);
         if((oldModels.indexOf(model) === -1)) {
@@ -85,6 +84,7 @@ BackboneFilteredCollection.prototype = _.extend(
   _onCollectionEvent: function(type) {
     var args = Array.prototype.slice.apply(arguments);
     var model = args[1];
+    var index = this._models.indexOf(model);
 
     //No filter means we just proxy everything
     if (!this._filter) {
@@ -93,14 +93,14 @@ BackboneFilteredCollection.prototype = _.extend(
 
     //only trigger if we are adding a model and it passes the filter
     if (type === 'add') {
-      if (this._filter && this._filter(model)) {
+      if (this._filter && this._filter(model, index)) {
         this._models.push(model);
         BackboneProxyCollection.prototype._onCollectionEvent.apply(this, arguments);
       }
     }
     //
     else if (type === 'remove') {
-      if (this._filter && this._filter(model)) {
+      if (this._filter && this._filter(model, index)) {
         this._models.splice(this._models.indexOf(model), 1);
         BackboneProxyCollection.prototype._onCollectionEvent.apply(this, arguments);
       }
@@ -112,13 +112,12 @@ BackboneFilteredCollection.prototype = _.extend(
     }
     //
     else if(type === 'change') {
-      var index = this._models.indexOf(model);
-      if (this._filter && this._filter(model)) {
+      if (this._filter && this._filter(model, index)) {
         if(index === -1) {
           this._models.push(model);
           this._models = this._models.sort(this.comparator);
-          BackboneProxyCollection.prototype._onCollectionEvent.apply(this, arguments);
         }
+        BackboneProxyCollection.prototype._onCollectionEvent.apply(this, arguments);
       }
       else {
         if(index !== -1){
@@ -127,6 +126,7 @@ BackboneFilteredCollection.prototype = _.extend(
           BackboneProxyCollection.prototype._onCollectionEvent.apply(this, arguments);
         }
       }
+
     }
 
     //proxy everything else
