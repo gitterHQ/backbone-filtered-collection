@@ -303,4 +303,12 @@ describe('BackboneFilteredCollection', function() {
     assert.equal(50, count);
   });
 
+  it('should use the correct number of models when filter is called', function(){
+    collection.setFilter(filter);
+    var l = collection.length;
+    collection.filter(function(model, index){
+      assert(index < l);
+    });
+  });
+
 });

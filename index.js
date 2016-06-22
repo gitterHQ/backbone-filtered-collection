@@ -174,7 +174,11 @@ BackboneFilteredCollection.prototype = _.extend(
     return this.models.map(function(model){
       return model.toJSON();
     });
-  }
+  },
+
+  filter: function (fn){
+    return this._models.filter(fn);
+  },
 
 });
 
